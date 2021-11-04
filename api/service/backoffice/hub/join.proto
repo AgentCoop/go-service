@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+import "service/types.proto";
+import "google/protobuf/descriptor.proto";
+import "options.proto";
+
+package hub.backoffice.peppermint;
+
+option go_package = "peppermint/service/backoffice/hub";
+
+message Join {
+  enum Flags {
+    Secure = 0; // Promote end-to-end encryption
+    PrivateNetwork = 1;
+  }
+  message Request {
+    repeated string tag = 1;
+    repeated .peppermint.ServiceDesc avail_services = 2;
+    repeated Flags flags = 3;
+    string join_secret = 4;
+  }
+  message Response {
+    fixed64  node_id = 1; // Assign ID to a newly joined node
+  }
+}

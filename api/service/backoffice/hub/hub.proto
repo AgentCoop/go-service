@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+import "service/backoffice/hub/security.proto";
+import "service/backoffice/hub/join.proto";
+import "service/backoffice/hub/inquiry.proto";
+import "service/rpc.proto";
+import "options.proto";
+
+package hub.backoffice.peppermint;
+
+option go_package = "peppermint/service/backoffice/hub";
+
+service Hub {
+  option (.peppermint.enforce_enc) = true;
+  option (.peppermint.port) = 12001;
+  option (.peppermint.ipc_unix_socket) = "@peppermint.backoffice.hub";
+
+  // Exchanges encryption key between the hub service and a client, using the Diffie-Hellman key exchange algorithm
+  rpc ClientHello(ClientHello.Request) returns (ClientHello.Response) {
+    option (.peppermint.m_enforce_enc) = false;
+    option (.peppermint.new_session) = 60;
+  }
+
+  rpc PubKeyAuth(PubKeyAuth.Request) returns (PubKeyAuth.Response) {
+    option (.peppermint.session_sticky) = true;
+  }
+
+  rpc Join(Join.Request) returns (Join.Response) {
+    option (.peppermint.session_sticky) = true;
+  }
+
+  rpc NodeInquiry(NodeInquiry.Request) returns(NodeInquiry.Response) {
+
+  }
+}

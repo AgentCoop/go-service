@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+option go_package = "peppermint/service";
+
+package peppermint;
+
+message EncodedMessage {
+  bytes raw = 1;
+}

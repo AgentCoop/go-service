@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+import "service/cdn/vfs.proto";
+import "service/rpc.proto";
+
+package cdn.peppermint;
+
+option go_package = "peppermint/cdn";
+
+message Request {
+  .peppermint.RequestHeader header = 1;
+  oneof body {
+    Vfs.Dir.Create.Request create_dir = 2;
+  }
+}
+
+message Response {
+  .peppermint.ResponseHeader header = 1;
+  oneof body {
+    Vfs.Dir.Create.Response create_dir = 2;
+  }
+}
+
+service Cdn {
+  rpc CreateResource(Request) returns (Response) { }
+  rpc DeleteResource(Request) returns (Response) { }
+
+  rpc CreateDir(Request) returns (Response) { }
+  rpc LsDir(Request) returns (Response) { }
+  rpc RmDir(Request) returns (Response) { }
+}

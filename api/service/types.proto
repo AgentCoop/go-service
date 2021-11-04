@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option go_package = "peppermint/service";
+
+package peppermint;
+
+message ServiceDesc {
+  string name = 1;
+  int32 port = 2;
+}
+
+enum ResourceType {
+  Image = 0;
+}
+
+message KeyValueStr {
+  string key = 1;
+  string val = 2;
+}
+
+message BinKeyValue {
+
+}
